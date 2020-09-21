@@ -1,0 +1,14 @@
+{
+  "name": "auckland-transport-visualiser-server",
+  "version": "1.0.0",
+  "description": "Realtime visualisation of Auckland Transport services using Deck.gl",
+  "main": "index.js",
+  "repository": "https://github.com/jordansimsmith/auckland-transport-visualiser",
+  "author": "Jordan Sim-Smith",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+
