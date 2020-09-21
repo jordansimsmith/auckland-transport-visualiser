@@ -2,7 +2,7 @@
   "name": "auckland-transport-visualiser",
   "private": true,
   "scripts": {
-    "start": "lerna run --parallel start",
+    "start": "CI=true lerna run --parallel start",
     "postinstall": "lerna bootstrap"
   },
   "husky": {
