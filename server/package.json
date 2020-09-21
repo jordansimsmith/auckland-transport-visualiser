@@ -7,8 +7,19 @@
   "author": "Jordan Sim-Smith",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "concurrently \"tsc --watch --preserveWatchOutput\" \"nodemon dist/index.js\""
+  },
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.8",
+    "@types/node": "^14.11.1",
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.4",
+    "typescript": "^4.0.3"
   }
 }
 
