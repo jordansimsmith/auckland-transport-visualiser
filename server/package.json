@@ -2,14 +2,19 @@
   "name": "auckland-transport-visualiser-server",
   "version": "1.0.0",
   "description": "Realtime visualisation of Auckland Transport services using Deck.gl",
-  "main": "index.js",
+  "main": "src/index.ts",
   "repository": "https://github.com/jordansimsmith/auckland-transport-visualiser",
   "author": "Jordan Sim-Smith",
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "lint": "tslint --project tsconfig.json",
     "build": "tsc",
     "start": "concurrently \"tsc --watch --preserveWatchOutput\" \"nodemon dist/index.js\""
+  },
+  "lint-staged": {
+    "*.+(js|ts)": "tslint --fix",
+    "*.+(json|md)": "prettier --write"
   },
   "dependencies": {
     "express": "^4.17.1"
@@ -18,8 +23,12 @@
     "@types/express": "^4.17.8",
     "@types/node": "^14.11.1",
     "concurrently": "^5.3.0",
+    "lint-staged": "^10.4.0",
     "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^4.0.3"
   }
 }
-
