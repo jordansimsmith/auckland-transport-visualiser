@@ -1,10 +1,11 @@
 import React from 'react';
 import { VehicleMap } from './components/VehicleMap';
+import { Header } from './components/Header';
 
 const App: React.FC<{}> = () => {
   return (
     <div>
-      <h1>Auckland Transport Visualiser</h1>
+      <Header />
       <VehicleMap />
     </div>
   );

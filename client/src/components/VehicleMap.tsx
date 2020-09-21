@@ -21,6 +21,7 @@ export const VehicleMap: React.FC<{}> = () => {
         width="100%"
         height="100%"
         mapStyle="mapbox://styles/mapbox/dark-v9"
+        preventStyleDiffing={true}
       />
     </DeckGL>
   );

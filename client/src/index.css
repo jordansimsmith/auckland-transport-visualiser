@@ -1,0 +1,10 @@
+html,
+body,
+#root,
+#root > div {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
