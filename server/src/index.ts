@@ -3,6 +3,8 @@ import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
 
+import { RouteResponse, TripResponse, LocationResponse } from './types/types';
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -19,13 +21,14 @@ app.get('/routes', async (req, res) => {
 
   const url = `https://api.at.govt.nz/v2/gtfs/routes/routeShortName/${shortName}`;
   try {
-    const { data } = await axios.get(url, {
+    const response = await axios.get(url, {
       headers: {
         'Ocp-Apim-Subscription-Key': apiKey,
       },
     });
+    const routeData = response.data as RouteResponse;
 
-    return res.status(200).send(data);
+    return res.status(200).send(routeData);
   } catch (e) {
     return res.status(502).send({ error: e.message });
   }
@@ -39,26 +42,26 @@ app.get('/locations', async (req, res) => {
 
   try {
     const tripUrl = `https://api.at.govt.nz/v2/gtfs/trips/routeid/${routeId}`;
-    const { data: tripData } = await axios.get(tripUrl, {
+    const tripResponse = await axios.get(tripUrl, {
       headers: {
         'Ocp-Apim-Subscription-Key': apiKey,
       },
     });
+    const tripData = tripResponse.data as TripResponse;
 
-    const tripIds = tripData.response.reduce(
-      (set: Set<string>, trip: any) => set.add(trip.trip_id),
-      new Set()
-    );
+    const tripIds = new Set<string>();
+    tripData.response.forEach((trip) => tripIds.add(trip.trip_id));
 
     const locationsUrl = `https://api.at.govt.nz/v2/public/realtime/vehiclelocations`;
-    const { data: locationsData } = await axios.get(locationsUrl, {
+    const locationsReponse = await axios.get(locationsUrl, {
       headers: {
         'Ocp-Apim-Subscription-Key': apiKey,
       },
     });
+    const locationsData = locationsReponse.data as LocationResponse;
 
     locationsData.response.entity = locationsData.response.entity.filter(
-      (entity: any) => tripIds.has(entity.vehicle?.trip?.trip_id)
+      (entity) => tripIds.has(entity.vehicle?.trip?.trip_id)
     );
 
     return res.status(200).send(locationsData);
