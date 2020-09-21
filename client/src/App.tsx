@@ -1,7 +1,13 @@
 import React from 'react';
+import { VehicleMap } from './components/VehicleMap';
 
-function App() {
-  return <div>Hello, World!</div>;
-}
+const App: React.FC<{}> = () => {
+  return (
+    <div>
+      <h1>Auckland Transport Visualiser</h1>
+      <VehicleMap />
+    </div>
+  );
+};
 
 export default App;

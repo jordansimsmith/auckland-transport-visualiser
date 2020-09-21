@@ -10,8 +10,10 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "deck.gl": "^8.2.8",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-map-gl": "^5.2.8",
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2"
   },
@@ -42,6 +44,8 @@
     ]
   },
   "devDependencies": {
+    "@danmarshall/deckgl-typings": "^4.3.5",
+    "@types/react-map-gl": "^5.2.7",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "tslint": "^6.1.3",
