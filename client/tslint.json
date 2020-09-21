@@ -1,0 +1,12 @@
+{
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "prettier": true,
+    "jsx-no-lambda": false,
+    "no-console": [true, "log"]
+  },
+  "linterOptions": {
+    "exclude": ["src/serviceWorker.ts"]
+  }
+}
