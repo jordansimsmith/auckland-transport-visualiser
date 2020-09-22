@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppBar, Toolbar, makeStyles, Typography } from '@material-ui/core';
 
+import { RouteSelect } from './RouteSelect';
+
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
@@ -20,6 +22,7 @@ export const Header: React.FC<{}> = () => {
           <Typography variant="h6" className={classes.title}>
             Auckland Transport Visualiser
           </Typography>
+          <RouteSelect />
         </Toolbar>
       </AppBar>
     </div>
