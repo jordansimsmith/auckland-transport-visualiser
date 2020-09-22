@@ -1,10 +1,20 @@
 import React from 'react';
 import axios from 'axios';
-import { TextField, Paper } from '@material-ui/core';
+import { TextField, Paper, makeStyles, Grid } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+}));
 
 export const RouteSelect: React.FC<{}> = () => {
   const [routeShortName, setRouteShortName] = React.useState<string>();
-  const [routes, setRoutes] = React.useState();
+  const [routes, setRoutes] = React.useState<any[]>([]); // TODO: typings
+
+  const classes = useStyles();
 
   React.useEffect(() => {
     if (!routeShortName) {
@@ -19,15 +29,37 @@ export const RouteSelect: React.FC<{}> = () => {
   }, [routeShortName]);
 
   return (
-    <div>
-      <Paper>
-        <TextField
-          variant="filled"
-          label="Route Number"
-          value={routeShortName}
-          onChange={(e) => setRouteShortName(e.target.value)}
-        />
-      </Paper>
+    <div className={classes.root}>
+      <Grid container={true} spacing={1}>
+        <Grid item={true} xs={4}>
+          <Paper>
+            <TextField
+              variant="filled"
+              label="Route Number"
+              value={routeShortName}
+              onChange={(e) => setRouteShortName(e.target.value)}
+              fullWidth={true}
+            />
+          </Paper>
+        </Grid>
+
+        <Grid item={true} xs={8}>
+          <Paper>
+            <Autocomplete
+              options={routes}
+              getOptionLabel={(option) => option.route_long_name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Route Selector"
+                  variant="filled"
+                  fullWidth={true}
+                />
+              )}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
