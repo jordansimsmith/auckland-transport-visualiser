@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { TextField, Paper, makeStyles, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { RouteContext } from '../common/contexts/RouteContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -13,6 +14,8 @@ const useStyles = makeStyles(() => ({
 export const RouteSelect: React.FC<{}> = () => {
   const [routeShortName, setRouteShortName] = React.useState<string>();
   const [routes, setRoutes] = React.useState<any[]>([]); // TODO: typings
+
+  const { setRoute } = React.useContext(RouteContext);
 
   const classes = useStyles();
 
@@ -48,6 +51,7 @@ export const RouteSelect: React.FC<{}> = () => {
             <Autocomplete
               options={routes}
               getOptionLabel={(option) => option.route_long_name}
+              onChange={(_e, value) => setRoute && setRoute(value.route_id)}
               renderInput={(params) => (
                 <TextField
                   {...params}

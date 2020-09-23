@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
+import { RouteContext } from '../common/contexts/RouteContext';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -13,6 +14,8 @@ const INITIAL_VIEW_STATE = {
 };
 
 export const VehicleMap: React.FC<{}> = () => {
+  const { route: _route } = React.useContext(RouteContext);
+
   return (
     <DeckGL controller={true} initialViewState={INITIAL_VIEW_STATE}>
       <StaticMap
