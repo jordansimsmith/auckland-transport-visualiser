@@ -1,5 +1,5 @@
 import React from 'react';
-import DeckGL from 'deck.gl';
+import DeckGL, { IconLayer } from 'deck.gl';
 import axios from 'axios';
 import { StaticMap } from 'react-map-gl';
 import { RouteContext } from '../common/contexts/RouteContext';
@@ -14,10 +14,14 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
+const ICON_MAPPING = {
+  marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
+};
+
 export const VehicleMap: React.FC<{}> = () => {
   const { route } = React.useContext(RouteContext);
 
-  const [_locations, setLocations] = React.useState<any[]>([]); // TODO: typing
+  const [locations, setLocations] = React.useState<any[]>([]); // TODO: typing
   React.useEffect(() => {
     if (!route) {
       return;
@@ -31,8 +35,31 @@ export const VehicleMap: React.FC<{}> = () => {
       .catch((error) => console.error(error));
   }, [route]);
 
+  const layers = [
+    // TODO: more intelligent rendering of the icons
+    new IconLayer({
+      id: 'vehicle-locations',
+      data: locations,
+      getPosition: (d: any) => [
+        d.vehicle.position.longitude,
+        d.vehicle.position.latitude,
+      ],
+      iconAtlas:
+        'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+      iconMapping: ICON_MAPPING,
+      getIcon: (_d) => 'marker',
+      sizeScale: 15,
+      getSize: (_d) => 5,
+      getColor: (_d) => [63, 81, 181],
+    }),
+  ];
+
   return (
-    <DeckGL controller={true} initialViewState={INITIAL_VIEW_STATE}>
+    <DeckGL
+      controller={true}
+      initialViewState={INITIAL_VIEW_STATE}
+      layers={layers}
+    >
       <StaticMap
         reuseMaps={true}
         mapboxApiAccessToken={MAPBOX_TOKEN}
