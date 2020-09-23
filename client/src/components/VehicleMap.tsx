@@ -1,5 +1,6 @@
 import React from 'react';
 import DeckGL from 'deck.gl';
+import axios from 'axios';
 import { StaticMap } from 'react-map-gl';
 import { RouteContext } from '../common/contexts/RouteContext';
 
@@ -14,7 +15,21 @@ const INITIAL_VIEW_STATE = {
 };
 
 export const VehicleMap: React.FC<{}> = () => {
-  const { route: _route } = React.useContext(RouteContext);
+  const { route } = React.useContext(RouteContext);
+
+  const [_locations, setLocations] = React.useState<any[]>([]); // TODO: typing
+  React.useEffect(() => {
+    if (!route) {
+      return;
+    }
+
+    // TODO: api url environment variable
+    const url = `http://localhost:5000/locations?routeId=${route}`;
+    axios
+      .get(url)
+      .then((response) => setLocations(response.data.response.entity))
+      .catch((error) => console.error(error));
+  }, [route]);
 
   return (
     <DeckGL controller={true} initialViewState={INITIAL_VIEW_STATE}>
