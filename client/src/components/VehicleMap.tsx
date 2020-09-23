@@ -1,7 +1,9 @@
 import React from 'react';
 import DeckGL, { IconLayer } from 'deck.gl';
 import axios from 'axios';
+import useInterval from 'react-useinterval';
 import { StaticMap } from 'react-map-gl';
+
 import { RouteContext } from '../common/contexts/RouteContext';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -22,18 +24,27 @@ export const VehicleMap: React.FC<{}> = () => {
   const { route } = React.useContext(RouteContext);
 
   const [locations, setLocations] = React.useState<any[]>([]); // TODO: typing
-  React.useEffect(() => {
+
+  const fetchLocations = () => {
     if (!route) {
       return;
     }
 
     // TODO: api url environment variable
     const url = `http://localhost:5000/locations?routeId=${route}`;
-    axios
+    return axios
       .get(url)
       .then((response) => setLocations(response.data.response.entity))
       .catch((error) => console.error(error));
+  };
+
+  // fetch data on route change
+  React.useEffect(() => {
+    fetchLocations();
   }, [route]);
+
+  // poll for updates every 30 seconds
+  useInterval(fetchLocations, 30_000);
 
   const layers = [
     // TODO: more intelligent rendering of the icons
