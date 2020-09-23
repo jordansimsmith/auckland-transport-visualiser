@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { TextField, Paper, makeStyles, Grid } from '@material-ui/core';
+import { Button, TextField, Paper, makeStyles, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { RouteContext } from '../common/contexts/RouteContext';
 
@@ -8,6 +8,11 @@ const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexGrow: 1,
+  },
+  item: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'stretch',
   },
 }));
 
@@ -19,22 +24,22 @@ export const RouteSelect: React.FC<{}> = () => {
 
   const classes = useStyles();
 
-  React.useEffect(() => {
+  const fetchRoutes = () => {
     if (!routeShortName) {
       return;
     }
 
     const url = `http://localhost:5000/routes?shortName=${routeShortName}`;
-    axios
+    return axios
       .get(url)
       .then((response) => setRoutes(response.data.response))
       .catch((error) => console.error(error));
-  }, [routeShortName]);
+  };
 
   return (
     <div className={classes.root}>
       <Grid container={true} spacing={1}>
-        <Grid item={true} xs={4}>
+        <Grid item={true} xs={8} sm={3}>
           <Paper>
             <TextField
               variant="filled"
@@ -46,7 +51,13 @@ export const RouteSelect: React.FC<{}> = () => {
           </Paper>
         </Grid>
 
-        <Grid item={true} xs={8}>
+        <Grid item={true} xs={4} sm={2} className={classes.item}>
+          <Button variant="contained" fullWidth={true} onClick={fetchRoutes}>
+            Select
+          </Button>
+        </Grid>
+
+        <Grid item={true} xs={12} sm={7}>
           <Paper>
             <Autocomplete
               options={routes}
