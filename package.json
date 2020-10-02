@@ -14,7 +14,5 @@
     "husky": "^4.3.0",
     "lerna": "^3.22.1"
   },
-  "dependencies": {
-    "react-useinterval": "^1.0.2"
-  }
+  "dependencies": {}
 }
